@@ -298,9 +298,9 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        
+
         getoutlet_meal_majorList();
-        
+
         function getoutlet_meal_majorList() {
             var outlet = localStorage.getItem('outlet');
             var mealperiod = localStorage.getItem('mealperiod');
@@ -316,7 +316,7 @@
 					</of_get_outlet_meal_major> \
 				  </soap:Body> \
 				</soap:Envelope>';
-            
+
             $.ajax({
                 type: "POST",
                 url: wsUrl_get_outlet_meal_major_list,
@@ -337,18 +337,23 @@
                     select_get_outlet_meal_major_list.html();
                     $.each(parse_strjson_get_outlet_meal_major_list['ds_pm_major']['ds_pm_major_row'], function () {
                         //var outlet_meal_major_list = '<option value="' + this['major_cd']['#text'] + '">' + this['desc']['#text'] + '</option>';
-                        var outlet_meal_major_list = '<div><a id="' + this['major_cd']['#text'] + '" data-role="button" class="menu_type_style"><span class="menu_type_size" >' + this['descs']['#text'] + '</span></a></div>';
+                        var outlet_meal_major_list = '<div onClick="test(\'' + this['major_cd']['#text'] + '\')"><a id="' + this['major_cd']['#text'] + '" data-role="button" class="menu_type_style"><span class="menu_type_size" >' + this['descs']['#text'] + '</span></a></div>';
                         outlet_meal_major_list_collection.push(outlet_meal_major_list);
                     });
                     outlet_meal_major_list_join = outlet_meal_major_list_collection.join("");
                     select_get_outlet_meal_major_list.html(outlet_meal_major_list_join);
-                    $("#menuPanel").trigger("change");
                     $JssorSlider$("slider1_container", options);
                 },
                 error: function (data, status) {
                     alert(data.responseText);
                 }
             });
+            $("#slider1_container").trigger("change");
+            $("#menuPanel").trigger("change");
+        }
+
+        function test(aa) {
+            alert(aa);
         }
 
         //responsive code start
