@@ -8,15 +8,6 @@
 
     <!-- Golf style and jQuery -->
     <link rel="stylesheet" href="css/golfStyle.css">
-    <script type="text/javascript" src="phonegap.js"></script>
-    <script type="text/javascript" src="js/PushNotification.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">
-        app.initialize();
-    </script>
-    <script type="text/javascript" src="slider_js/jssor.core.js"></script>
-    <script type="text/javascript" src="slider_js/jssor.utils.js"></script>
-    <script type="text/javascript" src="slider_js/jssor.slider.js"></script>
     <title></title>
 </head>
 <body>
@@ -28,17 +19,27 @@
                 <table data-role="table" id="Table1" data-mode="" class="ui-responsive condiment_tbl">
                     <thead>
                         <tr>
-                            <td class="orderLeft_Pic" rowspan="3">
+                            <th id="th_orderLeft_Pic" class="orderLeft_Pic" rowspan="5">
                                 &nbsp;&nbsp;
-                            </td>
+                            </th>
                             <th>
                                 请输入菜品数量: &nbsp;&nbsp; <input type="text" class="menu_input_box" id="txtCount" value="" data-role="none" data-mini="true" data-theme="b" data-corners="false">
                             </th>
                         </tr>
                         <tr>
                             <th>
-                                <span class="condiment_title">青岛啤酒330ml</span>
-                                <span class="condiment_price">RM 30</span>
+                                <span id="condiment_title" class="condiment_title">青岛啤酒330ml</span>
+                                <span id="condiment_price" class="condiment_price">RM 30</span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <span id="item_descs"></span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                &nbsp;
                             </th>
                         </tr>
                         <tr>
@@ -65,3 +66,29 @@
     </div>
 </body>
 </html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var item_item_cd = localStorage.getItem('item_item_cd');
+        var item_descs = localStorage.getItem('item_descs');
+        var item_item_desc = localStorage.getItem('item_item_desc');
+        var item_uom_cd = localStorage.getItem('item_uom_cd');
+        var item_picture_name = localStorage.getItem('item_picture_name');
+        var item_visitor_price = localStorage.getItem('item_visitor_price');
+        var item_member_price = localStorage.getItem('item_member_price');
+        var item_room_price = localStorage.getItem('item_room_price');
+        var item_staff_price = localStorage.getItem('item_staff_price');
+        var item_stockstatus = localStorage.getItem('item_stockstatus');
+        var item_customerType = localStorage.getItem('item_customerType');
+        var item_price = localStorage.getItem('item_price');
+
+        var pic = item_picture_name.substr(3);
+        
+        $("#condiment_title").html(item_descs);
+        $("#condiment_price").html('RM ' + item_price);
+        $("#item_descs").html(item_item_desc);
+        
+        $('#th_orderLeft_Pic').css("background-image", "url(images/" + pic + ")");
+    });
+
+</script>
