@@ -53,8 +53,8 @@
                             <div data-role="fieldcontain">
                                 <label class="menu_label" for="table" style="min-width: 50px;">桌号：</label>
                                 <div style="position: relative; display: block;">
-                                    <select id="searchTable" class="menu_input_box" data-role="none" data-mini="true" data-theme="b" data-corners="false" onchange="change_customerType();">
-                                        <option value="a">a</option>
+                                    <select id="searchTable" class="menu_input_box" onChange="table_bill_function();" data-role="none" data-mini="true" data-theme="b" data-corners="false">
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -85,14 +85,14 @@
                         </div>
                         <div class="ui-block-e">
                             <div data-role="fieldcontain">
-                                <a id="createBill" href="#createBill" data-role="button" data-corners="false" data-theme="g" data-inline="true" data-mini="true" class="menu_header_menu_button_width"><span class="menu_font_size">开台</span></a>
+                                <a id="createBill" href="javascript:void(0)" onClick="create_table_list_function();" data-role="button" data-corners="false" data-theme="g" data-inline="true" data-mini="true" class="menu_header_menu_button_width"><span class="menu_font_size">开台</span></a>
                                 <a id="orderPanel" href="order_panel.html" rel="external" data-ajax="false" data-role="button" data-corners="false" data-theme="g" data-icon="check" data-inline="true" data-mini="true" class="menu_header_menu_button_width"><span class="menu_font_size">已选菜肴</span></a>
                             </div>
                         </div>
                     </div>
 					<!-- Jssor Slider Begin -->
 					<!-- You can move inline styles (except 'top', 'left', 'width' and 'height') to css file or css block. -->
-					<div id="slider1_container" style="position: relative; width: 430px; height: 55px;">
+					<div id="slider1_container" style="position: relative; width: 560px; height: 55px;">
                         
 					</div>
 					<!-- Jssor Slider End -->
@@ -122,7 +122,7 @@
         alert(aa);
     }
 
-    function pass_order(item_cd, descs, item_desc, uom_cd, picture_name, visitor_price, member_price, room_price, staff_price, stockstatus, customerType, item_price) {
+    function pass_order(item_cd, descs, item_desc, uom_cd, picture_name, visitor_price, member_price, room_price, staff_price, stockstatus, customerType, item_price, by_weight) {
         localStorage.setItem("item_item_cd", item_cd);
         localStorage.setItem("item_descs", descs);
         localStorage.setItem("item_item_desc", item_desc);
@@ -135,7 +135,12 @@
         localStorage.setItem("item_stockstatus", stockstatus);
         localStorage.setItem("item_customerType", customerType);
         localStorage.setItem("item_price", item_price);
-        window.location.href = "order.html";
+        if (by_weight == "N") {
+            by_weight = 0;
+        }
+        localStorage.setItem("by_weight", by_weight);
+
+        window.location.href = "order.html"; 
         
     }
 
@@ -206,12 +211,12 @@
                 outlet_meal_major_list_collection.push('</div>');
 
                 outlet_meal_major_list_collection.push('<!-- Slides Container -->');
-                outlet_meal_major_list_collection.push('<div u="slides" id="menuPanel" style="cursor: move; position: absolute; width: 340px; height:55px; overflow: hidden; margin: 0px 45px 0px 35px;">');
+                outlet_meal_major_list_collection.push('<div u="slides" id="menuPanel" style="cursor: move; position: absolute; width: 470px; height:55px; overflow: hidden; margin: 0px 45px 0px 35px;">');
                 outlet_meal_major_list_collection.push('<div><a id="Salable" data-role="button" class="menu_type_style" href="javascript:void(0)" onClick="change_major(\'Salable\');"><span class="menu_type_size" >热销菜品</span></a></div>');
 							
                 $.each(parse_strjson_get_outlet_meal_major_list['ds_pm_major']['ds_pm_major_row'], function () {
                     //var outlet_meal_major_list = '<option value="' + this['major_cd']['#text'] + '">' + this['desc']['#text'] + '</option>';
-                    if (count_mealmajor == 1) {
+                    if (count_mealmajor == 0) {
                         sel_mealmajor = this['major_cd']['#text'];
                     }
                     var outlet_meal_major_list = '<div ><a id="' + this['major_cd']['#text'] + '" data-role="button" class="menu_type_style" href="javascript:void(0)" onClick="change_major(\'' + this['major_cd']['#text'] + '\')"><span class="menu_type_size">' + this['descs']['#text'] + '</span></a></div>';
@@ -234,7 +239,6 @@
                 outlet_meal_major_list_join = outlet_meal_major_list_collection.join("");
                 select_get_outlet_meal_major_list.html(outlet_meal_major_list_join);
                 $("#slider1_container").trigger("create");
-                $("#slider1_container").trigger("refresh");
                 var jssor_slider1 = new $JssorSlider$("slider1_container", options);
 
                 localStorage.setItem("mealmajor", sel_mealmajor);
@@ -327,12 +331,13 @@
                             var member_price = this['member_price']['#text'];
                             var room_price = this['room_price']['#text'];
                             var staff_price = this['staff_price']['#text'];
-                            var stockstatus = this['stockstatus']['#text'];
+                            var stockstatus = this['stockstatus']['#text']; 
+                            var by_weight = this['by_weight']['#text'];
 
                             var outlet_meal_major_menu = '<div class="ui-block-' + div_block + '" id="div_' + item_cd + '"> \
                             <div data-role="controlgroup" data-type="horizontal"> \
-                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\');" data-role="button" class="menu_width"><span class="menu_font_size">' + descs + '</span></a> \
-                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\');" data-role="button" class="menu_price_width"><span class="menu_font_size">' + parseFloat(item_price).toFixed(2) + ' /' + uom_cd + '</span></a> \
+                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\', \'' + by_weight + '\');" data-role="button" class="menu_width"><span class="menu_font_size">' + descs + '</span></a> \
+                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\', \'' + by_weight + '\');" data-role="button" class="menu_price_width"><span class="menu_font_size">' + parseFloat(item_price).toFixed(2) + ' /' + uom_cd + '</span></a> \
                             </div> \
                             </div>';
 
@@ -363,11 +368,12 @@
                         var room_price = parse_strjson_get_outlet_meal_major_menu['ds_pm_major_item_list']['ds_pm_major_item_list_row']['room_price']['#text'];
                         var staff_price = parse_strjson_get_outlet_meal_major_menu['ds_pm_major_item_list']['ds_pm_major_item_list_row']['staff_price']['#text'];
                         var stockstatus = parse_strjson_get_outlet_meal_major_menu['ds_pm_major_item_list']['ds_pm_major_item_list_row']['stockstatus']['#text'];
+                        var by_weight = parse_strjson_get_outlet_meal_major_menu['ds_pm_major_item_list']['ds_pm_major_item_list_row']['by_weight']['#text'];
                         
                         var outlet_meal_major_menu = '<div class="ui-block-a" id="div_' + item_cd + '"> \
                             <div data-role="controlgroup" data-type="horizontal"> \
-                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\');" data-role="button" class="menu_width"><span class="menu_font_size">' + descs + '</span></a> \
-                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\');" data-role="button" class="menu_price_width"><span class="menu_font_size">' + parseFloat(item_price).toFixed(2) + ' /' + uom_cd + '</span></a> \
+                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\', \'' + by_weight + '\');" data-role="button" class="menu_width"><span class="menu_font_size">' + descs + '</span></a> \
+                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\', \'' + by_weight + '\');" data-role="button" class="menu_price_width"><span class="menu_font_size">' + parseFloat(item_price).toFixed(2) + ' /' + uom_cd + '</span></a> \
                             </div> \
                             </div>';
 
@@ -456,10 +462,22 @@
                                 item_price = this['visitor_price']['#text'];
                             }
 
+                            var item_cd = this['item_cd']['#text'];
+                            var descs = this['descs']['#text'];
+                            var item_desc = this['item_desc']['#text'];
+                            var uom_cd = this['uom_cd']['#text'];
+                            var picture_name = this['picture_name']['#text'];
+                            var visitor_price = this['visitor_price']['#text'];
+                            var member_price = this['member_price']['#text'];
+                            var room_price = this['room_price']['#text'];
+                            var staff_price = this['staff_price']['#text'];
+                            var by_weight = this['by_weight']['#text'];
+                            var stockstatus = "";
+
                             var outlet_meal_popular_menu = '<div class="ui-block-' + div_block + '" id="div_' + this['item_cd']['#text'] + '"> \
                             <div data-role="controlgroup" data-type="horizontal"> \
-                            <a href="javascript:void(0)" onClick="test(\'' + this['item_cd']['#text'] + '\')" data-role="button" class="menu_width"><span class="menu_font_size">' + this['descs']['#text'] + '</span></a> \
-                            <a href="javascript:void(0)" onClick="test(\'' + this['item_cd']['#text'] + '\')" data-role="button" class="menu_price_width"><span class="menu_font_size">' + parseFloat(item_price).toFixed(2) + ' /' + this['uom_cd']['#text'] + '</span></a> \
+                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\', \'' + by_weight + '\');" data-role="button" class="menu_width"><span class="menu_font_size">' + this['descs']['#text'] + '</span></a> \
+                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\', \'' + by_weight + '\');" data-role="button" class="menu_price_width"><span class="menu_font_size">' + parseFloat(item_price).toFixed(2) + ' /' + this['uom_cd']['#text'] + '</span></a> \
                             </div> \
                             </div>';
 
@@ -480,10 +498,23 @@
                             item_price = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['visitor_price']['#text'];
                         }
 
+                        var item_cd = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['item_cd']['#text'];
+                        var descs = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['descs']['#text'];
+                        var item_desc = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['item_desc']['#text'];
+                        var uom_cd = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['uom_cd']['#text'];
+                        var picture_name = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['picture_name']['#text'];
+                        var visitor_price = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['visitor_price']['#text'];
+                        var member_price = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['member_price']['#text'];
+                        var room_price = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['room_price']['#text'];
+                        var staff_price = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['staff_price']['#text'];
+                        var by_weight = parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['by_weight']['#text'];
+
+                        var stockstatus = "";
+
                         var outlet_meal_popular_menu = '<div class="ui-block-a" id="div_' + parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['item_cd']['#text'] + '"> \
                             <div data-role="controlgroup" data-type="horizontal"> \
-                            <a href="javascript:void(0)" onClick="test(\'' + parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['item_cd']['#text'] + '\')" data-role="button" class="menu_width"><span class="menu_font_size">' + parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['descs']['#text'] + '</span></a> \
-                            <a href="javascript:void(0)" onClick="test(\'' + parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['item_cd']['#text'] + '\')" data-role="button" class="menu_price_width"><span class="menu_font_size">' + parseFloat(item_price).toFixed(2) + ' /' + parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['uom_cd']['#text'] + '</span></a> \
+                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\', \'' + by_weight + '\');" data-role="button" class="menu_width"><span class="menu_font_size">' + parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['descs']['#text'] + '</span></a> \
+                            <a href="javascript:void(0)" onClick="pass_order(\'' + item_cd + '\', \'' + descs + '\', \'' + item_desc + '\', \'' + uom_cd + '\', \'' + picture_name + '\', \'' + visitor_price + '\', \'' + member_price + '\', \'' + room_price + '\', \'' + staff_price + '\', \'' + stockstatus + '\', \'' + SelectedcustomerType + '\', \'' + parseFloat(item_price).toFixed(2) + '\', \'' + by_weight + '\');" data-role="button" class="menu_price_width"><span class="menu_font_size">' + parseFloat(item_price).toFixed(2) + ' /' + parse_strjson_get_outlet_meal_popular_menu['ds_pm_popular_item_list']['ds_pm_popular_item_list_row']['uom_cd']['#text'] + '</span></a> \
                             </div> \
                             </div>';
 
@@ -554,6 +585,168 @@
                 });
 
                 $("#searchTable").trigger("change");
+            },
+            error: function (data, status) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    function table_bill_function() {
+        /// <summary>
+        /// 根据销售点、餐桌、营业日期获取单据信息
+        /// </summary>
+        /// <param name="as_outlet_cd">销售点代码</param>
+        /// <param name="stas_table_cd">餐桌代码</param>
+        /// <param name="adt_doc_date">营业日期</param>
+        /// <param name="as_status">A:有效;P:已付款 ;C:已关闭 ;X :已取消;%:所有</param>
+        /// <returns>bill_no , table_cd ,cover ,cust_type ,成功member_id ,waiter_cd ,sub_amt ,remarks,status(餐桌代码,人数,顾客类型,会员号码,服务员,消费合计,菜单备注,状态)</returns>
+
+        var outlet = localStorage.getItem('outlet');
+        var SelectedsearchTable = $("#searchTable :selected").val();
+        
+        var wsUrl_get_table_bill_list = "http://175.139.183.94:1002/webservice_posv5/n_webservice_posv5.asmx?op=of_get_table_bill";
+
+        var soapRequest_get_table_bill_list =
+            '<?xml version="1.0" encoding="utf-8"?> \
+				<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> \
+				  <soap:Body> \
+					<of_get_table_bill xmlns="http://tempurl.org"> \
+					  <as_outlet_cd>' + outlet + '</as_outlet_cd> \
+					  <as_table_cd>' + SelectedsearchTable + '</as_table_cd> \
+					  <adt_doc_date>2014-02-25</adt_doc_date> \
+					  <as_status>A</as_status> \
+					</of_get_table_bill> \
+				  </soap:Body> \
+				</soap:Envelope>';
+
+        $.ajax({
+            type: "POST",
+            url: wsUrl_get_table_bill_list,
+            contentType: "text/xml",
+            dataType: "xml",
+            data: soapRequest_get_table_bill_list,
+            success: function (xmlHttpRequest, status, req) {
+                // creates object instantce of XMLtoJSON
+                var xml2json = new XMLtoJSON();
+                var decoded_get_table_list = $("<div/>").html(req.responseText).text();
+
+                //Replace empty member ID so that the ParseJson can be use
+                var empty_member_id = "<member_id>                    </member_id>";
+                if (decoded_get_table_list.indexOf(empty_member_id) != -1) {
+                    decoded_get_table_list = decoded_get_table_list.replace("<member_id>                    </member_id>", "<member_id></member_id>");
+                }
+
+                var strjson_get_table_list = xml2json.fromStr(decoded_get_table_list, 'string');
+
+                if (strjson_get_table_list == "Invalid XML format") {
+                    $("#customerNumber").val('');
+                    $("#merberId").val('');
+                } else {
+                    var parse_strjson_get_table_list = jQuery.parseJSON(strjson_get_table_list);
+                    var cust_type = parse_strjson_get_table_list['ds_pt_table_bill']['ds_pt_table_bill_row']['cust_type']['#text'];
+
+                    localStorage.setItem("bill_no", parse_strjson_get_table_list['ds_pt_table_bill']['ds_pt_table_bill_row']['bill_no']['#text']);
+                    localStorage.setItem("member_id", parse_strjson_get_table_list['ds_pt_table_bill']['ds_pt_table_bill_row']['member_id']['#text']);
+                    localStorage.setItem("waiter_cd", parse_strjson_get_table_list['ds_pt_table_bill']['ds_pt_table_bill_row']['waiter_cd']['#text']);
+                    localStorage.setItem("sub_amt", parse_strjson_get_table_list['ds_pt_table_bill']['ds_pt_table_bill_row']['sub_amt']['#text']);
+                    localStorage.setItem("status", parse_strjson_get_table_list['ds_pt_table_bill']['ds_pt_table_bill_row']['status']['#text']);
+                    localStorage.setItem("cover", parse_strjson_get_table_list['ds_pt_table_bill']['ds_pt_table_bill_row']['cover']['#text']);
+                    localStorage.setItem("SelectedsearchTable", SelectedsearchTable);
+
+                    $("#customerNumber").val(parse_strjson_get_table_list['ds_pt_table_bill']['ds_pt_table_bill_row']['cover']['#text']);
+                    $("#merberId").val(parse_strjson_get_table_list['ds_pt_table_bill']['ds_pt_table_bill_row']['member_id']['#text']);
+                    $("#customerType").val(cust_type);
+                    change_customerType();
+                }
+
+            },
+            error: function (data, status) {
+                alert(data.responseText);
+            }
+        });
+    }
+    
+    function create_table_list_function() {
+        /// <summary>
+        /// 录入相关信息进行开台
+        /// </summary>
+        /// <param name="as_outlet_cd">销售点代码</param>
+        /// <param name="as_station_cd">收银台代码</param>
+        /// <param name="as_table_cd">餐桌代码</param>
+        /// <param name="adt_doc_date">营业日期</param>
+        /// <param name="adt_sys_date">客户端日期</param>
+        /// <param name="as_cust_type">顾客类型V:普通客;M:会员R:酒店客;S:员工;O:其他</param>
+        /// <param name="as_member_id">会员号码/员工号码/房间号码顾客类型为M/R/S时必输</param>
+        /// <param name="ai_shift_issue">营业班次</param>
+        /// <param name="as_meal_cd">膳食期间</param>
+        /// <param name="ai_cover">人数</param>
+        /// <param name="as_waiter_cd">服务员</param>
+        /// <param name="as_logid">登陆用户</param>
+        /// <returns>账单号</returns>
+
+        var outlet = localStorage.getItem('outlet');
+        var station = localStorage.getItem('station');
+        var SelectedsearchTable = $("#searchTable :selected").val();
+        var SelectedsearchTableText = $("#searchTable :selected").text().slice(0, -3);
+
+        var create_bill_date = new Date();
+        //convert month to 2 digits
+        var twoDigitMonth = ((create_bill_date.getMonth().length + 1) === 1) ? (create_bill_date.getMonth() + 1) : '0' + (create_bill_date.getMonth() + 1);
+        var SelectedcustomerType = $("#customerType :selected").val();
+        var merberId = $("#merberId").val();
+        var mealperiod = localStorage.getItem('mealperiod');
+        var customerNumber = $("#customerNumber").val();
+        var username = localStorage.getItem('username');
+        
+        var wsUrl_get_create_table_list_list = "http://175.139.183.94:1002/webservice_posv5/n_webservice_posv5.asmx?op=of_create_table_bill";
+
+        var soapRequest_get_create_table_list_list =
+            '<?xml version="1.0" encoding="utf-8"?> \
+			<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> \
+			  <soap:Body> \
+				<of_create_table_bill xmlns="http://tempurl.org"> \
+				  <as_outlet_cd>' + outlet + '</as_outlet_cd> \
+				  <as_station_cd>' + station + '</as_station_cd> \
+				  <as_table_cd>' + SelectedsearchTable + '</as_table_cd> \
+				  <adt_doc_date>2014-02-25</adt_doc_date> \
+				  <adt_sys_date>' + create_bill_date.getFullYear() + '-' + twoDigitMonth + '-' + create_bill_date.getDate() + '</adt_sys_date> \
+				  <as_cust_type>' + SelectedcustomerType + '</as_cust_type> \
+				  <as_member_id>' + merberId + '</as_member_id> \
+				  <ai_shift_issue>1</ai_shift_issue> \
+				  <as_meal_cd>' + mealperiod + '</as_meal_cd> \
+				  <ai_cover>' + customerNumber + '</ai_cover> \
+				  <as_waiter_cd>' + username + '</as_waiter_cd> \
+				  <as_logid>' + username + '</as_logid> \
+				</of_create_table_bill> \
+			  </soap:Body> \
+			</soap:Envelope>';
+
+        $.ajax({
+            type: "POST",
+            url: wsUrl_get_create_table_list_list,
+            contentType: "text/xml",
+            dataType: "xml",
+            data: soapRequest_get_create_table_list_list,
+            success: function (xmlHttpRequest, status, req) {
+                // creates object instantce of XMLtoJSON
+                var xml2json = new XMLtoJSON();
+                var decoded_get_table_list = $("<div/>").html(req.responseText).text();
+                var strjson_get_table_list = xml2json.fromStr(decoded_get_table_list, 'string');
+                
+                if (strjson_get_table_list == "Invalid XML format") {
+                    if ($.isNumeric(decoded_get_table_list)) {
+                        //Update drop down list text
+                        $("#searchTable :selected").text(SelectedsearchTableText + ' 占用');
+                        localStorage.setItem("bill_no", decoded_get_table_list);
+                    } else {
+                        var decoded_get_table_list_arr = decoded_get_table_list.split("|");
+                        alert(decoded_get_table_list_arr[1]);
+                    }
+                } else {
+                    alert('输入的餐桌不存在');
+                }
+
             },
             error: function (data, status) {
                 alert(data.responseText);
