@@ -60,7 +60,7 @@
                 var outlet_get_table_bill_order_item_collection = [];
                 var outlet_get_table_bill_order_item_join = "";
 				var count_bill_items = 1;
-alert(decoded_get_table_bill_order_item);
+				
                 //START display bills date time purpose
                 var bill_date = new Date();
                 var twoDigitMonth = ((bill_date.getMonth().length + 1) === 1) ? (bill_date.getMonth() + 1) : '0' + (bill_date.getMonth() + 1);
@@ -255,6 +255,7 @@ alert(decoded_get_table_bill_order_item);
                 outlet_get_table_bill_order_item_collection.push('</tbody>');
                 outlet_get_table_bill_order_item_collection.push('</table>');
                 outlet_get_table_bill_order_item_join = outlet_get_table_bill_order_item_collection.join("");
+				alert(outlet_get_table_bill_order_item_join);
                 get_table_bill_order_item.html(outlet_get_table_bill_order_item_join);
                 get_table_bill_order_item.trigger("change");
 
