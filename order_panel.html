@@ -19,6 +19,9 @@
             <div id="table_container" class="ui-content" align="center">
                 
             </div>
+			<div id="aaaaa">
+                
+            </div>
         </div>
     </div>
 </body>
@@ -232,8 +235,7 @@
 
                     total_bill_price = total_bill_price + parseFloat(parse_strjson_get_table_bill_order_item['ds_pt_order_list']['ds_pt_order_list_row']['trx_amt']['#text']);
                 }
-
-
+				
                 outlet_get_table_bill_order_item_collection.push('<tr>');
                 outlet_get_table_bill_order_item_collection.push('<td colspan="8">');
                 outlet_get_table_bill_order_item_collection.push('<br /><br />');
@@ -248,8 +250,11 @@
                 outlet_get_table_bill_order_item_collection.push('</tbody>');
                 outlet_get_table_bill_order_item_collection.push('</table>');
                 outlet_get_table_bill_order_item_join = outlet_get_table_bill_order_item_collection.join("");
-				get_table_bill_order_item.html('aaaa');
+				$("#table_container").html('aaaa');
 				$("#table_container").trigger("create");
+				$("#aaaaa").html('bbbb');
+				$("#aaaaa").trigger("create");
+				
 
             },
             error: function (data, status) {
