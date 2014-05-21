@@ -237,13 +237,6 @@
                 outlet_get_table_bill_order_item_collection.push('<tr>');
                 outlet_get_table_bill_order_item_collection.push('<td colspan="8">');
                 outlet_get_table_bill_order_item_collection.push('<br /><br />');
-                //outlet_get_table_bill_order_item_collection.push('<div class="boxMenu_size_left">');
-                //outlet_get_table_bill_order_item_collection.push('<a id="saveToService" class="ui-btn-right ui-btn ui-shadow ui-mini ui-btn-inline ui-btn-up-f" data-corners="false" data-inline="true" data-mini="true" data-theme="f" data-role="button" data-shadow="true" data-iconshadow="true" data-wrapperels="span">');
-                //outlet_get_table_bill_order_item_collection.push('<span class="ui-btn-inner">');
-                //outlet_get_table_bill_order_item_collection.push('<span class="ui-btn-text">确定</span>');
-                //outlet_get_table_bill_order_item_collection.push('</span>');
-                //outlet_get_table_bill_order_item_collection.push('</a>');
-                //outlet_get_table_bill_order_item_collection.push('</div>');
                 outlet_get_table_bill_order_item_collection.push('<div class="boxMenu_size_right">');
                 outlet_get_table_bill_order_item_collection.push('总价：￥');
                 outlet_get_table_bill_order_item_collection.push('<span id="orderPrice">');
@@ -255,9 +248,8 @@
                 outlet_get_table_bill_order_item_collection.push('</tbody>');
                 outlet_get_table_bill_order_item_collection.push('</table>');
                 outlet_get_table_bill_order_item_join = outlet_get_table_bill_order_item_collection.join("");
-				
-                $('#table_container').html(outlet_get_table_bill_order_item_join);
-                $('#table_container').trigger("create");
+				get_table_bill_order_item.html(outlet_get_table_bill_order_item_join);
+				$("#div_menu_items").trigger("create");
 
             },
             error: function (data, status) {
