@@ -259,10 +259,7 @@
                 outlet_get_table_bill_order_item_join = outlet_get_table_bill_order_item_collection.join("");
                 get_table_bill_order_item.html(outlet_get_table_bill_order_item_join);
                 $("#table_container").trigger("create");
-				var select_get_outlet_meal_popular_menu = $('#div_menu_items');
-				select_get_outlet_meal_popular_menu.html('');
-				select_get_outlet_meal_popular_menu.html(outlet_get_table_bill_order_item_join);
-				$("#div_menu_items").trigger("create");
+				
 
             },
             error: function (data, status) {
@@ -273,10 +270,7 @@
        
 
     $(document).ready(function () {
-		var select_get_outlet_meal_popular_menu = $('#div_menu_items');
-		select_get_outlet_meal_popular_menu.html('');
-		select_get_outlet_meal_popular_menu.html('<br/><br/> AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-		$("#div_menu_items").trigger("create");
+		
         get_table_bill_order_item_function();
     });
 
