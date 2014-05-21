@@ -22,6 +22,9 @@
 			<div id="aaaaa">
                 
             </div>
+			<div id="gg">
+                
+            </div>
         </div>
     </div>
 </body>
@@ -254,7 +257,7 @@
 				$("#table_container").trigger("create");
 				$("#aaaaa").html('bbbb');
 				$("#aaaaa").trigger("change");
-				
+				$("#gg").append(outlet_get_table_bill_order_item_join).selectmenu('refresh');
 
             },
             error: function (data, status) {
