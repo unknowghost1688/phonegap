@@ -86,7 +86,7 @@
                         <div class="ui-block-e">
                             <div data-role="fieldcontain">
                                 <a id="createBill" href="javascript:void(0)" onClick="create_table_list_function();" data-role="button" data-corners="false" data-theme="g" data-inline="true" data-mini="true" class="menu_header_menu_button_width"><span class="menu_font_size">开台</span></a>
-                                <a id="orderPanel" href="order_panel.html" rel="external" data-ajax="false" data-role="button" data-corners="false" data-theme="g" data-icon="check" data-inline="true" data-mini="true" class="menu_header_menu_button_width"><span class="menu_font_size">已选菜肴</span></a>
+                                <a id="orderPanel" href="javascript:void(0)" onClick="order_panel();" rel="external" data-ajax="false" data-role="button" data-corners="false" data-theme="g" data-icon="check" data-inline="true" data-mini="true" class="menu_header_menu_button_width"><span class="menu_font_size">已选菜肴</span></a>
                             </div>
                         </div>
                     </div>
@@ -118,8 +118,8 @@
     var table_list_arr = [];
     var table_descs_arr = [];
 
-    function test(aa) {
-        alert(aa);
+    function order_panel() {
+        window.location.href = "order_panel.html";
     }
 
     function pass_order(item_cd, descs, item_desc, uom_cd, picture_name, visitor_price, member_price, room_price, staff_price, stockstatus, customerType, item_price, by_weight) {
