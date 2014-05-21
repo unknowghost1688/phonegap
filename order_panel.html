@@ -60,7 +60,8 @@
                 var outlet_get_table_bill_order_item_collection = [];
                 var outlet_get_table_bill_order_item_join = "";
 				var count_bill_items = 1;
-				
+				var total_bill_price = 0;
+
                 //START display bills date time purpose
                 var bill_date = new Date();
                 var twoDigitMonth = ((bill_date.getMonth().length + 1) === 1) ? (bill_date.getMonth() + 1) : '0' + (bill_date.getMonth() + 1);
@@ -104,8 +105,7 @@
                 
         
                 if (typeof parse_strjson_get_table_bill_order_item['ds_pt_order_list']['ds_pt_order_list_row'][0] != 'undefined') {
-                    var total_bill_price = 0;
-
+                   
                     outlet_get_table_bill_order_item_collection.push('<div id="Div1" class="ui-grid-a">');
                     outlet_get_table_bill_order_item_collection.push('<div class="ui-block-a boxMenu_price">');
                     outlet_get_table_bill_order_item_collection.push('<span class="boxMenu_size">');
@@ -257,7 +257,7 @@
                 outlet_get_table_bill_order_item_join = outlet_get_table_bill_order_item_collection.join("");
 				alert(outlet_get_table_bill_order_item_join);
                 get_table_bill_order_item.html(outlet_get_table_bill_order_item_join);
-                get_table_bill_order_item.trigger("change");
+                get_table_bill_order_item.trigger("create");
 
             },
             error: function (data, status) {
