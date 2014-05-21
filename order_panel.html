@@ -12,14 +12,14 @@
     <title></title>
 </head>
 <body>
+	<div class="ui-grid-b slot" id="div_menu_items">
+
+	</div>
     <div data-role="page" id="page1">
         <br /><br />
         <div class="ui-login-content">
             <br />
 	
-			<div class="ui-grid-b slot" id="div_menu_items">
-
-			</div>
         </div>
     </div>
 </body>
@@ -248,11 +248,12 @@
                 outlet_get_table_bill_order_item_collection.push('</tbody>');
                 outlet_get_table_bill_order_item_collection.push('</table>');
                 outlet_get_table_bill_order_item_join = outlet_get_table_bill_order_item_collection.join("");
+				alert('a');
 				var select_get_outlet_meal_major_menu = $('#div_menu_items');
 				select_get_outlet_meal_major_menu.html('');
 				select_get_outlet_meal_major_menu.html('<br/><br/> please success');
 				$("#div_menu_items").trigger("create");
-
+				alert('b');
             },
             error: function (data, status) {
                 alert(data.responseText);
