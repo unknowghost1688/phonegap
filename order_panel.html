@@ -19,8 +19,6 @@
             <div id="table_container" class="ui-content" align="center">
                 
             </div>
-			<div id="div_menu_items">
-			</div>
         </div>
     </div>
 </body>
@@ -33,7 +31,7 @@
         var bill_no = localStorage.getItem('bill_no');
         var SelectedsearchTable = localStorage.getItem('SelectedsearchTable');
 
-        var wsUrl_get_get_table_bill_order_item_list = "http://175.139.183.94:1002/webservice_posv5/n_webservice_posv5.asmx?op=of_get_table_bill_order_item";
+        var wsUrl_get_get_table_bill_order_item_list = "http://localhost/webservice_posv5/n_webservice_posv5.asmx?op=of_get_table_bill_order_item";
 
         var soapRequest_get_get_table_bill_order_item_list =
             '<?xml version="1.0" encoding="utf-8"?> \
@@ -257,12 +255,8 @@
                 outlet_get_table_bill_order_item_collection.push('</tbody>');
                 outlet_get_table_bill_order_item_collection.push('</table>');
                 outlet_get_table_bill_order_item_join = outlet_get_table_bill_order_item_collection.join("");
-                //get_table_bill_order_item.html(outlet_get_table_bill_order_item_join);
-                //$("#table_container").trigger("create");
-				var select_get_outlet_meal_popular_menu = $('#div_menu_items');
-				select_get_outlet_meal_popular_menu.html('');
-				select_get_outlet_meal_popular_menu.html(outlet_get_table_bill_order_item_join);
-				$("#div_menu_items").trigger("create");
+                get_table_bill_order_item.html(outlet_get_table_bill_order_item_join);
+                $("#table_container").trigger("create");
 
             },
             error: function (data, status) {
@@ -273,6 +267,8 @@
        
 
     $(document).ready(function () {
+		$("#table_container").html('');
+		$("#table_container").trigger("create");
         get_table_bill_order_item_function();
     });
 
