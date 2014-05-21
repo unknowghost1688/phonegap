@@ -255,8 +255,11 @@
                 outlet_get_table_bill_order_item_collection.push('</tbody>');
                 outlet_get_table_bill_order_item_collection.push('</table>');
                 outlet_get_table_bill_order_item_join = outlet_get_table_bill_order_item_collection.join("");
-                $("#table_container").html(outlet_get_table_bill_order_item_join);
-                $("#table_container").trigger("create");
+                
+				var select_get_table_bill_order_itemu = $('#table_container');
+				select_get_table_bill_order_itemu.html('');
+				select_get_table_bill_order_itemu.html(outlet_get_table_bill_order_item_join);
+				$("#table_container").trigger("create");
 
             },
             error: function (data, status) {
@@ -267,7 +270,9 @@
        
 
     $(document).ready(function () {
-		$("#table_container").html('loading ...');
+		var select_get_table_bill_order_itemu = $('#table_container');
+		select_get_table_bill_order_itemu.html('');
+		select_get_table_bill_order_itemu.html('<br/><br/>');
 		$("#table_container").trigger("create");
         get_table_bill_order_item_function();
     });
