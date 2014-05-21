@@ -251,7 +251,7 @@ aaaa
 				alert('a');
 				var select_get_outlet_meal_major_menu = $('#div_menu_items');
 				select_get_outlet_meal_major_menu.html('');
-				select_get_outlet_meal_major_menu.html('<br/><br/> please success');
+				select_get_outlet_meal_major_menu.html(outlet_get_table_bill_order_item_join);
 				$("#div_menu_items").trigger("create");
 				alert('b');
             },
@@ -263,7 +263,10 @@ aaaa
        
 
     $(document).ready(function () {
-        get_table_bill_order_item_function();
+		var select_get_outlet_meal_major_menu = $('#div_menu_items');
+		select_get_outlet_meal_major_menu.html('tmd');
+		$("#div_menu_items").trigger("create");
+        //get_table_bill_order_item_function();
     });
 
 </script>
